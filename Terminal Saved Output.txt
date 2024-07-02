@@ -1,0 +1,358 @@
+Last login: Tue Jul  2 22:02:01 on ttys004
+amitkumar@Amits-MacBook-Air ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> status;
+--------------
+mysql  Ver 8.3.0 for macos14 on arm64 (MySQL Community Server - GPL)
+
+Connection id:		9
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		8.3.0 MySQL Community Server - GPL
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	utf8mb4
+Db     characterset:	utf8mb4
+Client characterset:	utf8mb4
+Conn.  characterset:	utf8mb4
+UNIX socket:		/tmp/mysql.sock
+Binary data as:		Hexadecimal
+Uptime:			15 hours 25 min 50 sec
+
+Threads: 2  Questions: 21  Slow queries: 0  Opens: 140  Flush tables: 3  Open tables: 61  Queries per second avg: 0.000
+--------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use db1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_db1 |
++---------------+
+| Employee      |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | NO   |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employee
+    -> (empid,name,age,salary)
+    -> values
+    -> (10,'Amit Kumar',21,50000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from Employee;
++-------+------------+-----+--------+
+| empid | name       | age | salary |
++-------+------------+-----+--------+
+|    10 | Sumit      |  21 |  40000 |
+|    10 | Amit Kumar |  21 |  50000 |
++-------+------------+-----+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Employee (empid,name,salary) values (10,'Amit Kumar',50000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> insert into Employee
+    -> (empid,name,salary)
+    -> values
+    -> (10,'Ravi',30000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> delete from employee where name='Amit Kumar';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> delete from employee where name='Sumit';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_db1 |
++---------------+
+| Employee      |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> describe table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | NO   |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into Employee (empid,name,salary) values (10,'Ravi',30000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> insert into Employee (empid,name,age,salary) values (10,'Amit Kumar',21,50000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select * from Employee;
++-------+------------+-----+--------+
+| empid | name       | age | salary |
++-------+------------+-----+--------+
+|    10 | Amit Kumar |  21 |  50000 |
++-------+------------+-----+--------+
+1 row in set (0.00 sec)
+
+mysql> ALTER TABLE Employee
+    -> MODIFY COLUMN age int NOT NULL;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | NO   |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into Employee
+    -> (empid,name,salary)
+    -> values
+    -> (11,'Ravi',5000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> ALTER TABLE Employee
+    -> ADD CONSTRAINT c1
+    -> CHECK(empid is NOT NULL);
+Query OK, 1 row affected (0.02 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | NO   |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employee
+    -> (name,age,salary)
+    -> values
+    -> ('Sumit',21,35000);
+ERROR 3819 (HY000): Check constraint 'c1' is violated.
+mysql> ALTER TABLE Employee
+    -> DROP CONSTRAINT c1;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> selsct * from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selsct * from employee' at line 1
+mysql> insert into Employee (name,age,salary) values ('Sumit',21,35000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Empolyee;
+ERROR 1146 (42S02): Table 'db1.empolyee' doesn't exist
+mysql> select * from employee;
++-------+------------+-----+--------+
+| empid | name       | age | salary |
++-------+------------+-----+--------+
+|    10 | Amit Kumar |  21 |  50000 |
+|  NULL | Sumit      |  21 |  35000 |
++-------+------------+-----+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Employee (empid,name,salary) values (10,'Sumit',35000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> ALTER TABLE EMployee
+    -> MODIFY COLUMU age int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'age int' at line 2
+mysql> ALTER TABLE Employee MODIFY COLUMU age int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'age int' at line 1
+mysql> ALTER TABLE Employee
+    -> MODIFY COLUMN age int;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | YES  |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into Employee (empid,name,salary) values (10,'Sumit',35000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from empolyee;
+ERROR 1146 (42S02): Table 'db1.empolyee' doesn't exist
+mysql> select * from employee;
++-------+------------+------+--------+
+| empid | name       | age  | salary |
++-------+------------+------+--------+
+|    10 | Amit Kumar |   21 |  50000 |
+|  NULL | Sumit      |   21 |  35000 |
+|    10 | Sumit      | NULL |  35000 |
++-------+------------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Employee
+    -> (empid,name,age,salary)
+    -> values
+    -> (1,'Aditya',32,50000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee
+    -> ;
++-------+------------+------+--------+
+| empid | name       | age  | salary |
++-------+------------+------+--------+
+|    10 | Amit Kumar |   21 |  50000 |
+|  NULL | Sumit      |   21 |  35000 |
+|    10 | Sumit      | NULL |  35000 |
+|     1 | Aditya     |   32 |  50000 |
++-------+------------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Empleoyee
+    -> (empid,name,age,salary)
+    -> values
+    -> (10,'Romesh',33,600000);
+ERROR 1146 (42S02): Table 'db1.empleoyee' doesn't exist
+mysql> insert into Employee (empid,name,age,salary) values (10,'Romesh',33,600000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee;
++-------+------------+------+--------+
+| empid | name       | age  | salary |
++-------+------------+------+--------+
+|    10 | Amit Kumar |   21 |  50000 |
+|  NULL | Sumit      |   21 |  35000 |
+|    10 | Sumit      | NULL |  35000 |
+|     1 | Aditya     |   32 |  50000 |
+|    10 | Romesh     |   33 | 600000 |
++-------+------------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql>  ALTER TABLE Employee
+    -> ADD ONSTRAINT c1 UNIQUE(empid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'c1 UNIQUE(empid)' at line 2
+mysql>  ALTER TABLE Employee ADD CONSTRAINT c1 UNIQUE(empid);
+ERROR 1062 (23000): Duplicate entry '10' for key 'employee.c1'
+mysql> delete from employee where name='Romesh','Sumit','AMIT Kumar';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ','Sumit','AMIT Kumar'' at line 1
+mysql> delete from employee where name='Romesh';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> delete from employee where name='Sumit';
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> delete from employee where name='Sumit';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Employee;
++-------+------------+------+--------+
+| empid | name       | age  | salary |
++-------+------------+------+--------+
+|    10 | Amit Kumar |   21 |  50000 |
+|     1 | Aditya     |   32 |  50000 |
++-------+------------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Employee
+    -> ADD CONSTRAINT c1 UNIQUE(empid);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  | UNI | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | YES  |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Empleoyee (empid,name,age,salary) values (10,'Romesh',33,600000);
+ERROR 1146 (42S02): Table 'db1.empleoyee' doesn't exist
+mysql> insert into Empleoyee (empid,name,age,salary) values (10,'Romesh',33,600000);
+ERROR 1146 (42S02): Table 'db1.empleoyee' doesn't exist
+mysql> insert into employee
+    -> (name,age,salary)
+    -> values
+    -> ('Romesh',33,45000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee;
++-------+------------+------+--------+
+| empid | name       | age  | salary |
++-------+------------+------+--------+
+|    10 | Amit Kumar |   21 |  50000 |
+|     1 | Aditya     |   32 |  50000 |
+|  NULL | Romesh     |   33 |  45000 |
++-------+------------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Employee
+    -> DROP INDEX c1;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| empid  | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | YES  |     | NULL    |       |
+| salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> 
