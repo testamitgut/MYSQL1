@@ -1,0 +1,319 @@
+Last login: Wed Oct  9 10:27:21 on ttys061
+amitkumar@Amits-MacBook-Air-2 ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> status;
+--------------
+mysql  Ver 8.3.0 for macos14 on arm64 (MySQL Community Server - GPL)
+
+Connection id:		11
+Current database:	
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		8.3.0 MySQL Community Server - GPL
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	utf8mb4
+Db     characterset:	utf8mb4
+Client characterset:	utf8mb4
+Conn.  characterset:	utf8mb4
+UNIX socket:		/tmp/mysql.sock
+Binary data as:		Hexadecimal
+Uptime:			7 days 3 hours 30 min 27 sec
+
+Threads: 2  Questions: 261  Slow queries: 0  Opens: 280  Flush tables: 3  Open tables: 200  Queries per second avg: 0.000
+--------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> ues db1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ues db1' at line 1
+mysql> use db1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show tables;
++---------------+
+| Tables_in_db1 |
++---------------+
+| Employee      |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| Empid  | int          | YES  |     | NULL    |       |
+| Name   | varchar(255) | YES  |     | NULL    |       |
+| Age    | int          | YES  |     | NULL    |       |
+| Salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into Employee 
+    -> (Empid,Name,Age,Salary)
+    -> values(1,'Amit',26,20000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee;
++-------+------+------+--------+
+| Empid | Name | Age  | Salary |
++-------+------+------+--------+
+|     1 | Amit |   26 |  20000 |
++-------+------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into Employee  (Empid,Name,Age,Salary) values(1,'Amit',26,20000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Employee
+    -> (Empid,Name,Salary)
+    -> values
+    -> (2,'Sumit',4000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Employee;
++-------+-------+------+--------+
+| Empid | Name  | Age  | Salary |
++-------+-------+------+--------+
+|     1 | Amit  |   26 |  20000 |
+|     1 | Amit  |   26 |  20000 |
+|     2 | Sumit | NULL |   4000 |
++-------+-------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> delete from Employee where name='Amit';
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> delete from Employee where name='Sumit';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Employee;
+Empty set (0.00 sec)
+
+mysql> select * from Employee;
+Empty set (0.00 sec)
+
+mysql> insert into Employee(
+    -> (Empid,Name,Age,Salary)
+    -> values
+    -> (1,'Amit',20,20000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Empid,Name,Age,Salary)
+values
+(1,'Amit',20,20000)' at line 2
+mysql> insert into Employee 
+    ->     -> (Empid,Name,Age,Salary)
+    ->     -> values(1,'Amit',26,20000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (Empid,Name,Age,Salary)
+    -> values(1,'Amit',26,20000)' at line 2
+mysql> status;
+--------------
+mysql  Ver 8.3.0 for macos14 on arm64 (MySQL Community Server - GPL)
+
+Connection id:		11
+Current database:	db1
+Current user:		root@localhost
+SSL:			Not in use
+Current pager:		stdout
+Using outfile:		''
+Using delimiter:	;
+Server version:		8.3.0 MySQL Community Server - GPL
+Protocol version:	10
+Connection:		Localhost via UNIX socket
+Server characterset:	utf8mb4
+Db     characterset:	utf8mb4
+Client characterset:	utf8mb4
+Conn.  characterset:	utf8mb4
+UNIX socket:		/tmp/mysql.sock
+Binary data as:		Hexadecimal
+Uptime:			7 days 3 hours 51 min 42 sec
+
+Threads: 2  Questions: 285  Slow queries: 0  Opens: 304  Flush tables: 3  Open tables: 224  Queries per second avg: 0.000
+--------------
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use db1;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_db1 |
++---------------+
+| Employee      |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> describe table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| Empid  | int          | YES  |     | NULL    |       |
+| Name   | varchar(255) | YES  |     | NULL    |       |
+| Age    | int          | YES  |     | NULL    |       |
+| Salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employee
+    -> (Empid,Name,Age,Salary)
+    -> values
+    -> (1,'Amit',20,20000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Employee;
++-------+------+------+--------+
+| Empid | Name | Age  | Salary |
++-------+------+------+--------+
+|     1 | Amit |   20 |  20000 |
++-------+------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into Employee (Empid,Name,Salary) values (2,'Sumit',4000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Employee;
++-------+-------+------+--------+
+| Empid | Name  | Age  | Salary |
++-------+-------+------+--------+
+|     1 | Amit  |   20 |  20000 |
+|     2 | Sumit | NULL |   4000 |
++-------+-------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> alter table Employee
+    -> modify column age int NOT NULL;
+ERROR 1138 (22004): Invalid use of NULL value
+mysql> delete from Employee where name='Sumit';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> alter table Employee
+    -> modify column age int NOT NULL;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| Empid  | int          | YES  |     | NULL    |       |
+| Name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | NO   |     | NULL    |       |
+| Salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employee
+    -> (Empid,Name,Salary)
+    -> values
+    -> (1,'Sumit',20000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> alter table Employee
+    -> add constraint c1
+    -> check(Empid is NOT NULL);
+Query OK, 1 row affected (0.03 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| Empid  | int          | YES  |     | NULL    |       |
+| Name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | NO   |     | NULL    |       |
+| Salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employee
+    -> (Name,Age,Salary)
+    -> values('Mukesh',28,40000);
+ERROR 3819 (HY000): Check constraint 'c1' is violated.
+mysql> alter table Employee
+    -> drop constraint c1;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into Employee (Name,Age,Salary) values('Mukesh',28,40000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *from Employee;
++-------+--------+-----+--------+
+| Empid | Name   | age | Salary |
++-------+--------+-----+--------+
+|     1 | Amit   |  20 |  20000 |
+|  NULL | Mukesh |  28 |  40000 |
++-------+--------+-----+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Employee (Empid,Name,Salary) values(3,'Mukesh',40000);
+ERROR 1364 (HY000): Field 'age' doesn't have a default value
+mysql> alter table Employee
+    -> modify column age int;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into Employee (Empid,Name,Salary) values(3,'Mukesh',40000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Employee;
++-------+--------+------+--------+
+| Empid | Name   | age  | Salary |
++-------+--------+------+--------+
+|     1 | Amit   |   20 |  20000 |
+|  NULL | Mukesh |   28 |  40000 |
+|     3 | Mukesh | NULL |  40000 |
++-------+--------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> describe Employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| Empid  | int          | YES  |     | NULL    |       |
+| Name   | varchar(255) | YES  |     | NULL    |       |
+| age    | int          | YES  |     | NULL    |       |
+| Salary | float        | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> 
